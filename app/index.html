@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Pulse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Project Pulse</h1>
+  </header>
+
+  <main>
+    <div id="error-message" class="error-message" hidden role="alert"></div>
+    <div id="empty-state" class="empty-state" hidden>
+      <p>No projects to display.</p>
+    </div>
+    <div id="dashboard" class="dashboard" aria-live="polite"></div>
+  </main>
+
+  <script>
+    (function () {
+      var dashboard = document.getElementById("dashboard");
+      var errorMessage = document.getElementById("error-message");
+      var emptyState = document.getElementById("empty-state");
+
+      function statusSlug(status) {
+        return String(status || "")
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, "-");
+      }
+
+      function prioritySlug(priority) {
+        return String(priority || "")
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, "-");
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function showError(message) {
+        errorMessage.hidden = false;
+        errorMessage.textContent = message;
+        emptyState.hidden = true;
+        dashboard.innerHTML = "";
+      }
+
+      function renderProjects(projects) {
+        errorMessage.hidden = true;
+        errorMessage.textContent = "";
+        dashboard.innerHTML = "";
+
+        if (!projects || projects.length === 0) {
+          emptyState.hidden = false;
+          return;
+        }
+
+        emptyState.hidden = true;
+
+        var list = document.createElement("ul");
+        list.className = "project-list";
+        list.setAttribute("role", "list");
+
+        projects.forEach(function (project) {
+          var name = project.name || "Untitled project";
+          var owner = project.owner || "Unassigned";
+          var status = project.status || "Unknown";
+          var recentActivity = project.recentActivity || "No recent activity";
+          var priority = project.priority || "Medium";
+          var statusClass = "status-" + statusSlug(status);
+          var priorityClass = "priority-" + prioritySlug(priority);
+
+          var item = document.createElement("li");
+          item.innerHTML =
+            '<article class="project-card">' +
+              "<h2>" + escapeHtml(name) + "</h2>" +
+              '<p class="owner"><span class="label">Owner</span>: ' +
+                escapeHtml(owner) +
+              "</p>" +
+              '<p class="status">' +
+                '<span class="label">Status</span>: ' +
+                '<span class="status-badge ' + statusClass + '">' +
+                  escapeHtml(status) +
+                "</span>" +
+              "</p>" +
+              '<p class="recent-activity">' +
+                '<span class="label">Recent activity</span>: ' +
+                '<span class="recentActivity">' +
+                  escapeHtml(recentActivity) +
+                "</span>" +
+              "</p>" +
+              '<p class="priority ' + priorityClass + '">' +
+                '<span class="label">Priority</span>: ' +
+                escapeHtml(priority) +
+              "</p>" +
+            "</article>";
+
+          list.appendChild(item);
+        });
+
+        dashboard.appendChild(list);
+      }
+
+      fetch("project-data.json")
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error("Failed to load project data (" + response.status + ")");
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          var projects = data && Array.isArray(data.projects) ? data.projects : [];
+          renderProjects(projects);
+        })
+        .catch(function () {
+          showError("Unable to load project data. Please try again later.");
+        });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "projects": [
+    {
+      "name": "OctoGuide Onboarding",
+      "owner": "Mona Lisa",
+      "status": "Active",
+      "recentActivity": "Shipped contributor welcome checklist and linked Skills paths for new team members.",
+      "priority": "High",
+      "summary": "Helps new contributors get productive with Mona's agent team workflows."
+    },
+    {
+      "name": "Campus Codespaces Lab",
+      "owner": "Hubot",
+      "status": "At Risk",
+      "recentActivity": "Lab image rebuild delayed; waiting on base image security review before next workshop.",
+      "priority": "High",
+      "summary": "Hands-on Codespaces environment for campus workshops and hack nights."
+    },
+    {
+      "name": "Docs Site Refresh",
+      "owner": "Mona Lisa",
+      "status": "On Hold",
+      "recentActivity": "Paused pending design tokens handoff from the brand refresh track.",
+      "priority": "Medium",
+      "summary": "Modernize contributor docs navigation and search for Project Pulse materials."
+    },
+    {
+      "name": "Community Spotlight Archive",
+      "owner": "Professortocat",
+      "status": "Completed",
+      "recentActivity": "Archived Q2 spotlight posts and published the recap thread for the team.",
+      "priority": "Low",
+      "summary": "Curated archive of community wins and contributor shout-outs."
+    }
+  ]
+}

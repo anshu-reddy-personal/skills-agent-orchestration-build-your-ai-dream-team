@@ -1,0 +1,246 @@
+/* Project Pulse - Main Stylesheet */
+
+:root {
+  /* Color Palette */
+  --bg-color: #f6f8fa;
+  --text-primary: #24292f;
+  --text-secondary: #57606a;
+  --card-bg: #ffffff;
+  --border-color: #d0d7de;
+  
+  /* Status Colors */
+  --status-active-bg: #e6ffed;
+  --status-active-text: #1a7f37;
+  --status-active-border: rgba(26, 127, 55, 0.2);
+  
+  --status-hold-bg: #fff8c5;
+  --status-hold-text: #9a6700;
+  --status-hold-border: rgba(154, 103, 0, 0.2);
+  
+  --status-risk-bg: #ffebe9;
+  --status-risk-text: #cf222e;
+  --status-risk-border: rgba(207, 34, 46, 0.2);
+  
+  --status-completed-bg: #ddf4ff;
+  --status-completed-text: #0969da;
+  --status-completed-border: rgba(9, 105, 218, 0.2);
+
+  /* Priority Colors */
+  --priority-high: #cf222e;
+  --priority-medium: #bf8700;
+  --priority-low: #1a7f37;
+
+  /* Elevation and Geometry */
+  --border-radius: 8px;
+  --shadow-sm: 0 1px 3px rgba(31, 35, 40, 0.12);
+  --shadow-hover: 0 4px 12px rgba(31, 35, 40, 0.15);
+}
+
+/* Global Reset & Base Typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 2rem;
+  line-height: 1.5;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.25rem;
+  font-weight: 600;
+  margin-bottom: 2.5rem;
+  color: var(--text-primary);
+}
+
+/* 
+ * Dashboard Layout 
+ * Responsive grid handling narrow and wide displays
+ */
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.project-list li {
+  display: flex;
+}
+
+/* Empty State & Error Messages */
+.empty-state, .error-message {
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--card-bg);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-secondary);
+  grid-column: 1 / -1;
+}
+
+.error-message {
+  color: var(--status-risk-text);
+  border-color: var(--status-risk-border);
+  background-color: var(--status-risk-bg);
+  border-style: solid;
+}
+
+/* 
+ * Project Card Surface 
+ * Utilizes border-radius and box-shadow for elevation
+ */
+.project-card {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* General Typography inside cards */
+.project-card h2 {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.project-card p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  overflow-wrap: break-word; /* Prevent long text overflow */
+}
+
+/* Card details */
+.owner {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.recent-activity,
+.recentActivity {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background-color: var(--bg-color);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+/* 
+ * Status Badges 
+ * Distinct, high-contrast pill styling
+ */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px; /* Pill shape */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
+}
+
+.status-active {
+  background-color: var(--status-active-bg);
+  color: var(--status-active-text);
+  border: 1px solid var(--status-active-border);
+}
+
+.status-on-hold {
+  background-color: var(--status-hold-bg);
+  color: var(--status-hold-text);
+  border: 1px solid var(--status-hold-border);
+}
+
+.status-at-risk {
+  background-color: var(--status-risk-bg);
+  color: var(--status-risk-text);
+  border: 1px solid var(--status-risk-border);
+}
+
+.status-completed {
+  background-color: var(--status-completed-bg);
+  color: var(--status-completed-text);
+  border: 1px solid var(--status-completed-border);
+}
+
+/* 
+ * Priority Treatment 
+ * Scannable indicators combined with text for accessibility
+ */
+.priority {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-top: auto; /* Push to bottom if content varies in height */
+  padding-top: 0.5rem;
+}
+
+/* Bullet indicator before text */
+.priority::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.priority-high {
+  color: var(--priority-high);
+}
+.priority-high::before {
+  background-color: var(--priority-high);
+}
+
+.priority-medium {
+  color: var(--priority-medium);
+}
+.priority-medium::before {
+  background-color: var(--priority-medium);
+}
+
+.priority-low {
+  color: var(--priority-low);
+}
+.priority-low::before {
+  background-color: var(--priority-low);
+}
+
+/* Accessibility Focus States */
+.project-card:focus-within {
+  outline: 2px solid var(--status-completed-text);
+  outline-offset: 2px;
+}
